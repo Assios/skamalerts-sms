@@ -11,21 +11,21 @@ from keys import LOLTEL_AUTHENTICATION_TOKEN
 
 
 def add_number_to_database(number):
-    con = sql.connect("database.db")
+    con = sql.connect("../database.db")
     cur = con.cursor()
     cur.execute("INSERT INTO phone_numbers (phone_number) VALUES (?)", (number,))
     con.commit()
 
 
 def delete_number_from_database(number):
-    con = sql.connect("database.db")
+    con = sql.connect("../database.db")
     cur = con.cursor()
     cur.execute("DELETE FROM phone_numbers WHERE phone_number=?", (number,))
     con.commit()
 
 
 def get_registered_numbers():
-    conn = sql.connect('database.db')
+    conn = sql.connect('../database.db')
     c = conn.cursor()
     c.execute('SELECT phone_number FROM phone_numbers')
     all_rows = [row[0] for row in c.fetchall()]
@@ -33,7 +33,7 @@ def get_registered_numbers():
 
 
 def get_previous_smses():
-    conn = sql.connect("database.db")
+    conn = sql.connect("../database.db")
     c = conn.cursor()
     c.execute('SELECT * FROM smses')
     all_rows = c.fetchall()
@@ -42,7 +42,7 @@ def get_previous_smses():
 
 
 def add_sms(sms):
-    con = sql.connect("database.db")
+    con = sql.connect("../database.db")
     c = con.cursor()
     c.execute("INSERT INTO smses (sms) VALUES (?)", (sms,))
     con.commit()
@@ -50,7 +50,7 @@ def add_sms(sms):
 
 
 def fetch_previous_skam_posts():
-    conn = sql.connect("database.db")
+    conn = sql.connect("../database.db")
     c = conn.cursor()
     c.execute('SELECT * FROM posts')
     all_rows = c.fetchall()
@@ -59,7 +59,7 @@ def fetch_previous_skam_posts():
 
 
 def add_post(post):
-    con = sql.connect("database.db")
+    con = sql.connect("../database.db")
     c = con.cursor()
     c.execute("INSERT INTO posts (post) VALUES (?)", (post,))
     con.commit()
@@ -67,7 +67,7 @@ def add_post(post):
 
 
 def get_previous_skam_posts():
-    conn = sql.connect("database.db")
+    conn = sql.connect("../database.db")
     c = conn.cursor()
     c.execute('SELECT * FROM posts')
     all_rows = c.fetchall()
@@ -76,7 +76,7 @@ def get_previous_skam_posts():
 
 
 def add_skam_post(post):
-    con = sql.connect("database.db")
+    con = sql.connect("../database.db")
     c = con.cursor()
     c.execute("INSERT INTO posts (post) VALUES (?)", (post,))
     con.commit()

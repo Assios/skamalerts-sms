@@ -19,7 +19,7 @@ sys.setdefaultencoding('utf8')
 
 
 def fetch_sms_recipients():
-    conn = sql.connect("database.db")
+    conn = sql.connect("../database.db")
     c = conn.cursor()
     c.execute('SELECT phone_number FROM phone_numbers')
     all_rows = c.fetchall()
@@ -57,7 +57,7 @@ class Post:
             self.title = ""
 
 def fetch_previous_skam_posts():
-    conn = sql.connect("database.db")
+    conn = sql.connect("../database.db")
     c = conn.cursor()
     c.execute('SELECT * FROM posts')
     all_rows = c.fetchall()
@@ -65,7 +65,7 @@ def fetch_previous_skam_posts():
     return [row[0] for row in all_rows]
 
 def add_post(post):
-    con = sql.connect("database.db")
+    con = sql.connect("../database.db")
     c = con.cursor()
     c.execute("INSERT INTO posts (post) VALUES (?)", (post,))
     con.commit()
