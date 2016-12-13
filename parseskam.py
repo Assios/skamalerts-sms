@@ -100,9 +100,10 @@ def skam():
         print("EMPTY POSTS")
     else:
         last = posts[0]
+	_id = last.original_time.lower() + "_sms"
 
-        if not last.original_time.lower() in fetch_previous_skam_posts():
-            add_post(last.original_time.lower())
+        if not last.original_time.lower() and not _id in fetch_previous_skam_posts():
+            add_post(_id)
 
             sms_recipients = fetch_sms_recipients()
             sms = generate_sms(last.type, last.original_time, last.href)
