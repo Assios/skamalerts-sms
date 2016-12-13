@@ -145,7 +145,7 @@ def main():
         else:
             add_sms(timestamp)
             print("FROM_NUMBER %s CONTENT %s" % (message["from_number"], message["content"]))
-            handle_new_sms("4747504585", message["content"])
+            handle_new_sms(message["from_number"], message["content"])
 
     threading.Timer(20, main).start()
 
