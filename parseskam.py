@@ -102,7 +102,7 @@ def skam():
         last = posts[0]
 	_id = last.original_time.lower() + "_sms"
 
-        if not last.original_time.lower() and not _id in fetch_previous_skam_posts():
+        if not _id in fetch_previous_skam_posts():
             add_post(_id)
 
             sms_recipients = fetch_sms_recipients()
@@ -114,7 +114,7 @@ def skam():
             print(sms_recipients)
             print("SMS SENT")
         else:
-            print(last.original_time)
+            print(_id)
 
     threading.Timer(10.0, skam).start()
 
