@@ -122,7 +122,7 @@ def handle_new_sms(number, text):
             return send_sms(number, "Dette nummeret er allerede registrert, og du vil motta SMS når det kommer nye SKAM-innlegg.")
         elif message.startswith("stop"):
             delete_number_from_database(number)
-            return send_sms(number, "Du vil ikke lenger motta SMS når det kommer nye Skam-innlegg. Hvis du likevel vil ha varsler på epost, kan du registrere deg på https://skamalerts.com")
+            return send_sms(number, "don't cry because it's over. smile because it happened :)\n\nhttps://skamalerts.com")
         else:
             return send_sms(number, "%s er ikke en gyldig kommando, ass ;)" % message)
     else:
@@ -132,6 +132,8 @@ def handle_new_sms(number, text):
             return send_sms(number, "Du vil nå motta gratis SMS når det kommer nye Skam-innlegg. Send SKAM STOPP til 90300095 for å melde deg av. Denne tjenesten er levert av https://skamalerts.com")
         elif message.startswith("stop"):
             return send_sms(number, "Dette nummeret er ikke registrert hos skamalerts.com")
+	elif message.startswith("foodora"):
+            return send_sms(number, "Foodora-varsling er bestilt, og et av våre sykkelbud vil oppsøke deg når det kommer nye innle")
         else:
             return send_sms(number, "%s er ikke en gyldig kommando, ass. For å registrere deg, send SKAM til 90 3000 95" % message)
 
