@@ -124,16 +124,15 @@ def skam():
 
     threading.Timer(10.0, skam).start()
 
-
-skam()
-
 def send_custom_message_to_all_recipients():
     sms_recipients = fetch_sms_recipients()
-    sms = "da var denne seSongen av skAm over. vi seNder deg en sms nAr neste sesong kommer!"
+    sms = "da var denne seSongen av skAm over. vi seNder deg en sms når neste esong kommer! mvh sAmalerts.com"
 
-    smses = [sms for _ in range(len(sms_recipients))]
-
-    pool.map_async(send_sms, zip(sms_recipients, smses))
+    for recipient in sms_recipients:
+	#send_sms((recipient, sms))
+	print("Sent %s to %s" % (sms, recipient))
 
     print(sms_recipients)
     print("SENT CUSTOM MESSAGE")
+
+send_custom_message_to_all_recipients()
