@@ -27,6 +27,7 @@ def fetch_sms_recipients():
     rows = [row[0] for row in all_rows if row[0]]
     return rows
 
+
 class Post:
     def get_type(self, article):
         link = article.find("a")
@@ -56,6 +57,7 @@ class Post:
         except:
             self.title = ""
 
+
 def fetch_previous_skam_posts():
     conn = sql.connect("../database.db")
     c = conn.cursor()
@@ -63,6 +65,7 @@ def fetch_previous_skam_posts():
     all_rows = c.fetchall()
     c.close()
     return [row[0] for row in all_rows]
+
 
 def add_post(post):
     con = sql.connect("../database.db")
@@ -85,10 +88,13 @@ def send_sms((recipient, message)):
     print(r)
     return r
 
+
 def generate_sms(_type, time, href):
     return "SKAM ALERT! En ny " + _type + " ble publisert " + time + "! Her kan du gå direkte til innlegget: " + href
 
+
 pool = Pool()
+
 
 def skam():
     r = urllib.urlopen('http://skam.p3.no').read()
@@ -96,11 +102,11 @@ def skam():
     articles = soup.find_all("article", class_="post")
     posts = [Post(article) for article in articles]
 
-    if not posts or len(posts)==0:
+    if not posts or len(posts) == 0:
         print("EMPTY POSTS")
     else:
         last = posts[0]
-	_id = last.original_time.lower() + "_sms"
+        _id = last.original_time.lower() + "_sms"
 
         if not _id in fetch_previous_skam_posts():
             add_post(_id)
@@ -118,4 +124,16 @@ def skam():
 
     threading.Timer(10.0, skam).start()
 
+
 skam()
+
+def send_custom_message_to_all_recipients():
+    sms_recipients = fetch_sms_recipients()
+    sms = "da var denne seSongen av skAm over. vi seNder deg en sms nAr neste sesong kommer!"
+
+    smses = [sms for _ in range(len(sms_recipients))]
+
+    pool.map_async(send_sms, zip(sms_recipients, smses))
+
+    print(sms_recipients)
+    print("SENT CUSTOM MESSAGE")
