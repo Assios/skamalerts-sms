@@ -111,32 +111,65 @@ def send_sms(recipient, sms):
     print(r)
     return r
 
+def get_name(number):
+
+    r = requests.post('http://test.1881bedrift.pragma.no/api/search?userName=praadmin&password=praadmin&query=%s&catalogueIds&level=0&format=json' % number)
+
+    name = ""
+
+    response = r.json()["Results"][0]
+
+    if response:
+        try:
+            name = response["FirstName"]
+        except:
+            "Fant ikke navn"
+            pass
+
+    print("Fant navn %s" % name)
+
+    return name
+
+get_name("47504585")
+
 
 def handle_new_sms(number, text):
     nums = get_registered_numbers()
     message = text[4:].lower().strip()
+    name = get_name(number)
+
+    prefix = ""
+
+    if name:
+        prefix = "Hei, %s! " % name
 
     if message.startswith("foodora"):
-        return send_sms(number, "Et sykkelbud vil nå oppsøke og varsle deg når det kommer nye Skam-innlegg. NB: GPS må være påslått. https://skamalerts.com")
+        return send_sms(number, prefix + "Et sykkelbud vil nå oppsøke og varsle deg når det kommer nye Skam-innlegg. NB: GPS må være påslått. https://skamalerts.com")
 
     if number in nums:
         print("Number already added.")
         if message == "" or message == "start":
-            return send_sms(number, "Dette nummeret er allerede registrert, og du vil motta SMS når det kommer nye SKAM-innlegg.")
+            return send_sms(number, prefix + "Dette nummeret er allerede registrert, og du vil motta SMS når det kommer nye SKAM-innlegg.")
         elif message.startswith("stop"):
             delete_number_from_database(number)
             return send_sms(number, "don't cry because it's over. smile because it happened :)\n\nhttps://skamalerts.com")
         else:
-            return send_sms(number, "%s er ikke en gyldig kommando, ass ;)" % message)
+            if name:
+                return send_sms(number, "%s er ikke en gyldig kommando, %s!" % (message, name))
+            else:
+                return send_sms(number, "%s er ikke en gyldig kommando, ass!" % message)
     else:
         print("New number.")
         if message == "" or message == "start":
             add_number_to_database(number)
-            return send_sms(number, "Du vil nå motta gratis SMS når det kommer nye Skam-innlegg. Send SKAM STOPP til 90300095 for å melde deg av. Denne tjenesten er levert av https://skamalerts.com")
+            return send_sms(number, prefix + "Du vil nå motta gratis SMS når det kommer nye Skam-innlegg. Send SKAM STOPP til 90300095 for å melde deg av. Denne tjenesten er levert av https://skamalerts.com")
         elif message.startswith("stop"):
-            return send_sms(number, "Dette nummeret er ikke registrert hos skamalerts.com")
+            return send_sms(number, prefix + "Dette nummeret er ikke registrert hos skamalerts.com")
         else:
-            return send_sms(number, "%s er ikke en gyldig kommando, ass. For å registrere deg, send SKAM til 90 3000 95" % message)
+            if name:
+                return send_sms(number, "%s er ikke en gyldig kommando, %s. For å registrere deg, send SKAM til 90 3000 95" % (message, name))
+            else:
+                return send_sms(number, "%s er ikke en gyldig kommando. For å registrere deg, send SKAM til 90 3000 95" % (message))
 
 
 def main():
