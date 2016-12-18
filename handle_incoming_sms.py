@@ -112,26 +112,18 @@ def send_sms(recipient, sms):
     return r
 
 def get_name(number):
-
-    r = requests.post('http://test.1881bedrift.pragma.no/api/search?userName=praadmin&password=praadmin&query=%s&catalogueIds&level=0&format=json' % number)
-
     name = ""
 
-    response = r.json()["Results"][0]
-
-    if response:
-        try:
-            name = response["FirstName"]
-        except:
-            "Fant ikke navn"
-            pass
-
-    print("Fant navn %s" % name)
+    try:
+        r = requests.post('http://test.1881bedrift.pragma.no/api/search?userName=praadmin&password=praadmin&query=%s&catalogueIds&level=0&format=json' % number)
+        response = r.json()["Results"]
+        name = response[0]["FirstName"].strip()
+        print("Fant navn %s" % name)
+    except:
+        print("Kunne ikke hente nummer")
+        pass
 
     return name
-
-get_name("47504585")
-
 
 def handle_new_sms(number, text):
     nums = get_registered_numbers()
@@ -142,6 +134,7 @@ def handle_new_sms(number, text):
 
     if name:
         prefix = "Hei, %s! " % name
+
 
     if message.startswith("foodora"):
         return send_sms(number, prefix + "Et sykkelbud vil nå oppsøke og varsle deg når det kommer nye Skam-innlegg. NB: GPS må være påslått. https://skamalerts.com")
@@ -170,7 +163,6 @@ def handle_new_sms(number, text):
                 return send_sms(number, "%s er ikke en gyldig kommando, %s. For å registrere deg, send SKAM til 90 3000 95" % (message, name))
             else:
                 return send_sms(number, "%s er ikke en gyldig kommando. For å registrere deg, send SKAM til 90 3000 95" % (message))
-
 
 def main():
     for message in view_inbox(limit=30):
