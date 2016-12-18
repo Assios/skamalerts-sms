@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+# -*- coding: cp1252 -*-
 # encoding=utf8
 
 import requests
@@ -121,16 +121,14 @@ def get_name(number):
 
     if response:
         try:
-            name = response["FirstName"]
+            name = response["FirstName"].encode('ascii', 'ignore')
         except:
             "Fant ikke navn"
             pass
 
-    print("Fant navn %s" % name)
+    print("Fant navn %s" % name.encode('ascii', 'ignore'))
 
     return name
-
-get_name("47504585")
 
 
 def handle_new_sms(number, text):
