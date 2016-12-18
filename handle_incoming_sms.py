@@ -126,7 +126,7 @@ def get_name(number):
             "Fant ikke navn"
             pass
 
-    print("Fant navn %s" % name.encode('ascii', 'ignore'))
+    print("Fant navn %s" % name)
 
     return name
 
