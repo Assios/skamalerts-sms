@@ -8,7 +8,7 @@ import sqlite3 as sql
 import threading
 import datetime
 from keys import LOLTEL_AUTHENTICATION_TOKEN
-
+from random import randint
 
 def add_number_to_database(number):
     con = sql.connect("../database.db")
@@ -117,13 +117,14 @@ def get_name(number):
     try:
         r = requests.post('http://test.1881bedrift.pragma.no/api/search?userName=praadmin&password=praadmin&query=%s&catalogueIds&level=0&format=json' % number)
         response = r.json()["Results"]
-        name = response[0]["FirstName"].strip()
+        name = response[0]["FirstName"].strip().encode('ascii', 'ignore')
         print("Fant navn %s" % name)
     except:
         print("Kunne ikke hente nummer")
-        pass
+	name = ""
 
     return name
+
 
 def handle_new_sms(number, text):
     nums = get_registered_numbers()
@@ -132,8 +133,10 @@ def handle_new_sms(number, text):
 
     prefix = ""
 
+    greeting = ["Hei", "Yo", "Morn", "Halla", "Sup", "God kveld"][randint(0,5)]
+
     if name:
-        prefix = "Hei, %s! " % name
+        prefix = "%s, %s! " % (greeting, name)
 
 
     if message.startswith("foodora"):

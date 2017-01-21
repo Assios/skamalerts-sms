@@ -126,7 +126,7 @@ def skam():
 
 def send_custom_message_to_all_recipients():
     sms_recipients = fetch_sms_recipients()
-    sms = "da var denne seSongen av skAm over. vi seNder deg en sms nAr neste sesong kommer! mvh skamalerts.com"
+    sms = "gOdt nyTtaAr 31281388 2 . . 2121 http://skam.tv"
 
     for recipient in sms_recipients:
         send_sms((recipient, sms))
@@ -135,4 +135,4 @@ def send_custom_message_to_all_recipients():
     print(sms_recipients)
     print("SENT CUSTOM MESSAGE")
 
-send_custom_message_to_all_recipients()
+skam()
