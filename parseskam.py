@@ -90,7 +90,7 @@ def send_sms((recipient, message)):
 
 
 def generate_sms(_type, time, href):
-    return "SKAM ALERT! En ny " + _type + " ble publisert " + time + "! Her kan du gå direkte til innlegget: " + href
+    return "SKAMALERTS! En ny " + _type + " ble publisert " + time + "! Her kan du gå direkte til innlegget: " + href
 
 
 pool = Pool()
@@ -106,7 +106,7 @@ def skam():
         print("EMPTY POSTS")
     else:
         last = posts[0]
-        _id = last.original_time.lower() + "_sms"
+        _id = last.original_time.lower() + "_sms_"
 
         if not _id in fetch_previous_skam_posts():
             add_post(_id)
@@ -135,4 +135,4 @@ def send_custom_message_to_all_recipients():
     print(sms_recipients)
     print("SENT CUSTOM MESSAGE")
 
-send_custom_message_to_all_recipients()
+skam()

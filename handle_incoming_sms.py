@@ -148,7 +148,7 @@ def handle_new_sms(number, text):
             return send_sms(number, prefix + "Dette nummeret er allerede registrert, og du vil motta SMS når det kommer nye SKAM-innlegg.")
         elif message.startswith("stop"):
             delete_number_from_database(number)
-            return send_sms(number, "don't cry because it's over. smile because it happened :)\n\nhttps://skamalerts.com")
+            return send_sms(number, "Du er avmeldt.")
         else:
             if name:
                 return send_sms(number, "%s er ikke en gyldig kommando, %s!" % (message, name))
@@ -158,7 +158,7 @@ def handle_new_sms(number, text):
         print("New number.")
         if message == "" or message == "start":
             add_number_to_database(number)
-            return send_sms(number, prefix + "Du vil nå motta gratis SMS når det kommer nye Skam-innlegg. Send SKAM STOPP til 90300095 for å melde deg av. Denne tjenesten er levert av https://skamalerts.com")
+            return send_sms(number, prefix + "Du vil nå motta gratis SMS når det kommer nye Skam-innlegg. Send SKAM STOPP til 90300095 for å melde deg av")
         elif message.startswith("stop"):
             return send_sms(number, prefix + "Dette nummeret er ikke registrert hos skamalerts.com")
         else:
