@@ -124,15 +124,4 @@ def skam():
 
     threading.Timer(10.0, skam).start()
 
-def send_custom_message_to_all_recipients():
-    sms_recipients = fetch_sms_recipients()
-    sms = "Imens du venter pa sesong 4 kan du fa de beste SKAM-relaterte tingene her: https://alterlove.spreadshirt.no \n\nVi gir beskjed med en gang sesong 4 kommer ut!"
-
-    for recipient in sms_recipients:
-        send_sms((recipient, sms))
-        print("Sent %s to %s" % (sms, recipient))
-
-    print(sms_recipients)
-    print("SENT CUSTOM MESSAGE")
-
 skam()
