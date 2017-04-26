@@ -11,6 +11,7 @@ from datetime import datetime
 import urllib
 import threading
 import requests
+from random import shuffle
 from multiprocessing import Pool
 from keys import LOLTEL_AUTHENTICATION_TOKEN
 
@@ -18,13 +19,17 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 
-def fetch_sms_recipients():
+def fetch_sms_recipients(random=True):
     conn = sql.connect("../database.db")
     c = conn.cursor()
     c.execute('SELECT phone_number FROM phone_numbers')
     all_rows = c.fetchall()
     c.close()
     rows = [row[0] for row in all_rows if row[0]]
+
+    if random:
+        shuffle(rows)
+
     return rows
 
 
@@ -111,7 +116,7 @@ def skam():
         if not _id in fetch_previous_skam_posts():
             add_post(_id)
 
-            sms_recipients = fetch_sms_recipients()
+            sms_recipients = fetch_sms_recipients(random=True)
             sms = generate_sms(last.type, last.original_time, last.href)
             smses = [sms for _ in range(len(sms_recipients))]
 
